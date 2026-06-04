@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hermes Daily Report</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; line-height: 1.8; }
+    a { color: #0066cc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>📰 Hermes Daily Report</h1>
+  <ul id="list"></ul>
+  <script>
+    fetch('/')
+      .then(r => r.text())
+      .then(html => {
+        const matches = html.match(/index-\d{4}-\d{2}-\d{2}\.html/g);
+        if (matches) {
+          const unique = [...new Set(matches)].sort().reverse();
+          document.getElementById('list').innerHTML = unique.map(f => 
+            `<li><a href="/${f}">${f.replace('index-', '').replace('.html', '')}</a></li>`
+          ).join('');
+        }
+      });
+  </script>
+</body>
+</html>
